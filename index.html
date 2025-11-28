@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Я Бомж — WebApp</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      background: #111;
+      color: #f5f5f5;
+      font-family: system-ui, sans-serif;
+      margin: 0;
+      padding: 16px;
+    }
+    .card {
+      background: #1b1b1b;
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+      max-width: 480px;
+      margin: 0 auto;
+    }
+    button {
+      margin-top: 12px;
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: none;
+      background: #2b8cff;
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:disabled {
+      opacity: 0.5;
+      cursor: default;
+    }
+    .log {
+      margin-top: 12px;
+      font-size: 14px;
+      white-space: pre-line;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Я Бомж — тест WebApp</h1>
+    <div id="status">Загружаю данные...</div>
+    <button id="digBtn">Копать мусор</button>
+    <div class="log" id="log"></div>
+  </div>
+
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
