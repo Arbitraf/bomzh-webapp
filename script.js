@@ -1,7 +1,7 @@
 // API адрес твоего приложения на Railway
 const API_BASE = "https://bomzh-webapp-production.up.railway. app";
 
-const tg = window.Telegram?. WebApp;
+const tg = window. Telegram?. WebApp;
 if (tg) {
   tg.expand();
   tg.setHeaderColor("#1b1b1b");
