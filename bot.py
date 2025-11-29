@@ -87,17 +87,25 @@ if not BOT_TOKEN:
 else:
     bot = telebot.TeleBot(BOT_TOKEN, parse_mode=None)
 
-# Flask endpoints for webhook + simple API
+# Health and root endpoints
+@app.route("/health", methods=["GET"])
+def health():
+    return "OK", 200
+
 @app.route("/", methods=["GET"])
 def home():
     return jsonify({"status": "ok", "mode": "polling" if USE_POLLING else "webhook"})
 
+# Webhook endpoint
 @app.route("/webhook", methods=["POST"])
 def webhook():
     if bot is None:
         return jsonify({"error": "bot not configured"}), 500
     try:
-        json_data = request.get_json(force=True)
+        json_data = request.get_json(force=True, silent=True)
+        if json_data is None:
+            # fallback: raw data
+            json_data = json.loads(request.data.decode("utf-8"))
         update = telebot.types.Update.de_json(json_data)
         bot.process_new_updates([update])
         return jsonify({"status": "ok"})
@@ -105,6 +113,7 @@ def webhook():
         logger.exception("Exception in webhook")
         return jsonify({"status": "error", "trace": traceback.format_exc()}), 500
 
+# Game API
 @app.route("/action", methods=["POST"])
 def action():
     try:
@@ -127,13 +136,19 @@ def action():
             user["energy"] -= 5
             user["money_usd"] += 0.5
             user["exp"] += 5
+        elif action_name == "train_strength":
+            if user["energy"] < 15:
+                return jsonify({"error": "Недостаточно энергии"}), 400
+            user["energy"] -= 15
+            user["strength"] += 1
+            user["exp"] += 15
         save_users()
         return jsonify({"user": user})
     except Exception:
         logger.exception("Exception in /action")
         return jsonify({"error": "server error"}), 500
 
-# Bot handlers (only if bot created)
+# Bot handlers
 if bot is not None:
     @bot.message_handler(commands=["start"])
     def start(message):
@@ -198,13 +213,6 @@ def setup_webhook():
     except Exception:
         logger.exception("Failed setting webhook")
 
-# Set webhook on import when not polling (gunicorn case)
-if bot is not None and not USE_POLLING and WEBHOOK_URL:
-    try:
-        setup_webhook()
-    except Exception:
-        logger.exception("Webhook setup on import failed")
-
 if __name__ == "__main__":
     load_users()
     if bot is None:
@@ -217,6 +225,6 @@ if __name__ == "__main__":
             except Exception:
                 logger.exception("Polling stopped due to exception")
         else:
-            logger.info("Starting webhook mode (standalone)")
+            logger.info("Starting webhook mode (production)")
             setup_webhook()
             app.run(host="0.0.0.0", port=PORT, debug=False)
