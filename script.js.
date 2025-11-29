@@ -1,12 +1,21 @@
-// локальный API
-const API_BASE = "http://127.0.0.1:5000";
+// Публичный адрес твоего API (через ngrok)
+const API_BASE = "https://jennifer-inviolate-unmentally.ngrok-free.dev";
+
+const tg = window.Telegram?.WebApp;
+if (tg) tg.expand();
 
 const statusEl = document.getElementById("status");
 const logEl = document.getElementById("log");
 const digBtn = document.getElementById("digBtn");
 
-// пока без Телеграма — просто фиктивный id
-const userId = tg.initDataUnsafe.user.id;
+// Берём реальный user_id из Telegram WebApp
+let userId = 0;
+if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
+  userId = tg.initDataUnsafe.user.id;
+} else {
+  // если просто открыли страницу в браузере
+  userId = 12345;
+}
 
 async function callAction(action) {
   try {
@@ -33,7 +42,7 @@ async function callAction(action) {
 
     logEl.textContent = "Действие: " + action;
   } catch (e) {
-    logEl.textContent = "Сервер недоступен: " + e;
+    logEl.textContent = "Сервер недоступен";
   } finally {
     digBtn.disabled = false;
   }
@@ -43,5 +52,5 @@ digBtn.addEventListener("click", () => {
   callAction("dig_trash");
 });
 
-// при загрузке просто обновим статус
+// при первом открытии сразу обновим статус
 callAction("collect_bottles");
