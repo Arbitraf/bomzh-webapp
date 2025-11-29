@@ -5,6 +5,7 @@ Supports webhook mode (Railway) and long-polling (local development)
 """
 
 import os
+import hashlib
 import logging
 from flask import Flask, request, jsonify
 from flask_cors import CORS
@@ -28,6 +29,13 @@ WEBAPP_URL = os.environ.get('WEBAPP_URL', '')
 if not BOT_TOKEN:
     raise ValueError("BOT_TOKEN environment variable is required")
 
+# Generate a secure webhook secret from the bot token (avoid exposing token in URL)
+WEBHOOK_SECRET = hashlib.sha256(BOT_TOKEN.encode()).hexdigest()[:32]
+
+# Game configuration constants
+LEVEL_UP_EXP_MULTIPLIER = 100  # exp needed = level * this value
+LEVEL_UP_ENERGY_BONUS = 10     # bonus max_energy per level
+
 # Initialize bot
 bot = telebot.TeleBot(BOT_TOKEN)
 
@@ -35,7 +43,8 @@ bot = telebot.TeleBot(BOT_TOKEN)
 app = Flask(__name__)
 CORS(app)
 
-# In-memory user storage (for demo purposes - use a database in production)
+# In-memory user storage
+# WARNING: Data is lost on server restart/redeploy. Use a database (PostgreSQL, Redis, etc.) for production.
 users_db = {}
 
 def get_or_create_user(user_id):
@@ -64,9 +73,9 @@ def perform_action(user, action):
             user['money_rub'] += 10
             user['pity'] += 1
             # Level up check
-            if user['exp'] >= user['level'] * 100:
+            if user['exp'] >= user['level'] * LEVEL_UP_EXP_MULTIPLIER:
                 user['level'] += 1
-                user['max_energy'] += 10
+                user['max_energy'] += LEVEL_UP_ENERGY_BONUS
             return True
         return False
     elif action == 'collect_bottles':
@@ -118,8 +127,8 @@ def get_user(user_id):
     user = get_or_create_user(user_id)
     return jsonify({'user': user})
 
-# Telegram webhook endpoint
-@app.route(f'/webhook/{BOT_TOKEN}', methods=['POST'])
+# Telegram webhook endpoint (uses hashed secret instead of raw token for security)
+@app.route(f'/webhook/{WEBHOOK_SECRET}', methods=['POST'])
 def webhook():
     """Handle Telegram webhook updates"""
     try:
@@ -200,10 +209,10 @@ def handle_help(message):
 def setup_webhook():
     """Setup webhook for production"""
     if WEBHOOK_URL:
-        webhook_url = f"{WEBHOOK_URL}/webhook/{BOT_TOKEN}"
+        webhook_url = f"{WEBHOOK_URL}/webhook/{WEBHOOK_SECRET}"
         bot.remove_webhook()
         bot.set_webhook(url=webhook_url)
-        logger.info(f"Webhook set to: {webhook_url}")
+        logger.info(f"Webhook configured successfully")
 
 def run_polling():
     """Run bot in long-polling mode for local development"""
