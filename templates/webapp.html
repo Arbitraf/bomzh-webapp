@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Bomzh Clicker — WebApp</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <link rel="stylesheet" href="/static/css/styles.css" />
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <h1>🏚️ Bomzh Clicker</h1>
+      
+      <div id="stats" class="stats">
+        <div class="stat-row">
+          <span class="stat-label">⭐ Уровень:</span>
+          <span id="level">1</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">✨ Опыт:</span>
+          <span id="exp">0</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">💰 Рубли:</span>
+          <span id="rubles">0 ₽</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">💵 Доллары:</span>
+          <span id="dollars">$0</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">⚡ Энергия:</span>
+          <span id="energy">100/100</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">💪 Сила:</span>
+          <span id="strength">10</span>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button id="dig-trash" class="action-btn" data-action="dig_trash">
+          🗑️ Копать мусор<br><small>-10 энергии, +50₽, +10 опыта</small>
+        </button>
+        <button id="collect-bottles" class="action-btn" data-action="collect_bottles">
+          🍾 Собирать бутылки<br><small>-5 энергии, +$0.5, +5 опыта</small>
+        </button>
+        <button id="train-strength" class="action-btn" data-action="train_strength">
+          💪 Качать силу<br><small>-15 энергии, +1 сила, +15 опыта</small>
+        </button>
+      </div>
+
+      <div id="toast" class="toast hidden"></div>
+    </div>
+  </div>
+
+  <script src="/static/js/app.js"></script>
+</body>
+</html>
