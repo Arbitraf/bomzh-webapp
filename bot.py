@@ -8,7 +8,7 @@ from telebot import types
 from datetime import datetime, timedelta
 
 # Инициализация логирования
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging. INFO)
 logger = logging.getLogger(__name__)
 
 # Получаем переменные окружения
@@ -69,7 +69,7 @@ def get_or_create_user(user_id):
 
 def restore_energy(user):
     """Восстанавливать энергию со временем"""
-    last_action = datetime.fromisoformat(user.get("last_action", datetime.now().isoformat()))
+    last_action = datetime.fromisoformat(user. get("last_action", datetime.now().isoformat()))
     now = datetime.now()
     time_diff = (now - last_action).total_seconds() / 60  # в минутах
     
@@ -85,7 +85,7 @@ def webhook():
     """Webhook для получения сообщений от Telegram"""
     try:
         json_data = request.get_json()
-        update = telebot.types.Update.de_json(json_data)
+        update = telebot.types.Update. de_json(json_data)
         bot.process_new_updates([update])
         return jsonify({"status": "ok"})
     except Exception as e:
@@ -155,8 +155,9 @@ def get_user(user_id):
         logger.error(f"Ошибка в /user: {e}")
         return jsonify({"error": str(e)}), 500
 
-@bot.message_handler(commands=["start"])def start(message):
-    """Обработчик команды /start""" 
+@bot.message_handler(commands=["start"])
+def start(message):
+    """Обработчик команды /start"""
     user_id = message.from_user.id
     user = get_or_create_user(user_id)
     
@@ -171,12 +172,13 @@ def get_user(user_id):
         f"Твой уровень: {user['level']}\n"
         f"Твои рубли: {user['money_rub']} ₽\n"
         f"Твои доллары: ${user['money_usd']}\n\n"
-        f"Нажми на кнопку ниже, чтобы открыть игру!",
+        f"Нажми на кнопку ниже, чтобы открыть игру! ",
         reply_markup=markup
     )
 
-@bot.message_handler(commands=["stats"])def stats(message):
-    """Команда для просмотра статистики""" 
+@bot.message_handler(commands=["stats"])
+def stats(message):
+    """Команда для просмотра статистики"""
     user_id = message.from_user.id
     user = get_or_create_user(user_id)
     restore_energy(user)
@@ -194,22 +196,24 @@ def get_user(user_id):
     )
     bot.send_message(user_id, stats_text)
 
-@bot.message_handler(func=lambda message: True)def echo_all(message):
-    """Эхо для остальных сообщений""" 
+@bot.message_handler(func=lambda message: True)
+def echo_all(message):
+    """Эхо для остальных сообщений"""
     bot.reply_to(message, "Используй команду /start или /stats")
 
 def setup_webhook():
-    """Установить webhook для бота""" 
+    """Установить webhook для бота"""
     try:
         webhook_url = f"{WEBHOOK_URL}/webhook"
         bot.remove_webhook()
         bot.set_webhook(url=webhook_url)
         logger.info(f"Webhook установлен на {webhook_url}")
     except Exception as e:
-        logger.error(f"Ошибка при установке webhook: {e}")
+        logger. error(f"Ошибка при установке webhook: {e}")
 
-@app.route("/", methods=["GET"])def home():
-    """Главная страница""" 
+@app.route("/", methods=["GET"])
+def home():
+    """Главная страница"""
     return jsonify({"status": "Bot is running", "mode": "webhook" if not USE_POLLING else "polling"})
 
 if __name__ == "__main__":
