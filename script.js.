@@ -6,7 +6,7 @@ const logEl = document.getElementById("log");
 const digBtn = document.getElementById("digBtn");
 
 // пока без Телеграма — просто фиктивный id
-const userId = 12345;
+const userId = tg.initDataUnsafe.user.id;
 
 async function callAction(action) {
   try {
