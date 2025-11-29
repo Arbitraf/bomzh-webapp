@@ -20,7 +20,10 @@ BOT_TOKEN = os.getenv("BOT_TOKEN", "").strip()
 WEBHOOK_URL = os.getenv("WEBHOOK_URL", "").strip().rstrip("/")
 USE_POLLING = os.getenv("USE_POLLING", "false").lower() == "true"
 PORT = int(os.getenv("PORT", 5000))
-DATA_FILE = os.getenv("DATA_FILE", "bomzh_users.json")
+# Default data file path moved to /tmp for Railway safety
+DATA_FILE = os.getenv("DATA_FILE")
+if not DATA_FILE or not DATA_FILE.strip():
+    DATA_FILE = "/tmp/bomzh_users.json"
 
 app = Flask(__name__)
 CORS(app)
@@ -28,12 +31,28 @@ CORS(app)
 # Load / save users
 users_data = {}
 
+# Ensure data file exists and is writable
+def ensure_data_file():
+    try:
+        dirname = os.path.dirname(DATA_FILE) or "/tmp"
+        if not os.path.exists(dirname):
+            os.makedirs(dirname, exist_ok=True)
+        if not os.path.exists(DATA_FILE):
+            with open(DATA_FILE, "w", encoding="utf-8") as f:
+                json.dump({}, f)
+        return True
+    except Exception:
+        logger.exception("Failed ensuring data file at %s", DATA_FILE)
+        return False
+
+ensure_data_file()
+
 def load_users():
     global users_data
     try:
         if os.path.exists(DATA_FILE):
             with open(DATA_FILE, "r", encoding="utf-8") as f:
-                users_data = json.load(f)
+                users_data = json.load(f) or {}
         else:
             users_data = {}
     except Exception:
@@ -215,6 +234,7 @@ def setup_webhook():
 
 if __name__ == "__main__":
     load_users()
+    logger.info("Flask app is ready. Routes: /, /health, /webhook, /action")
     if bot is None:
         logger.error("Bot is not configured (BOT_TOKEN missing). Exiting main process.")
     else:
