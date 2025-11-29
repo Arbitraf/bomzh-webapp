@@ -1,5 +1,5 @@
-// API адрес твоего бота
-const API_BASE = "8555969182:AAHq7VhHP-Ok7P6OWYdXPvqyok6XOwse6xQ"; // ЗАПОЛНИ! 
+// ✅ ПРАВИЛЬНО:
+const API_BASE = "https://bomzh-webapp-production. up.railway.app";
 
 const tg = window. Telegram?. WebApp;
 if (tg) {
@@ -32,21 +32,21 @@ async function callAction(action) {
     const data = await res.json();
 
     if (data.error) {
-      logEl.textContent = "❌ Ошибка: " + data.error;
+      logEl.textContent = "❌ Ошибка: " + data. error;
       return;
     }
 
-    const u = data.user;
+    const u = data. user;
     statusEl.textContent =
-      `📊 Уровень: ${u.level} (опыт: ${u. exp})\n` +
+      `📊 Уровень: ${u. level} (опыт: ${u. exp})\n` +
       `💵 Рубли: ${u.money_rub} | 💵 Доллары: ${u.money_usd}\n` +
-      `⚡ Энергия: ${u.energy}/${u. max_energy}\n` +
+      `⚡ Энергия: ${u.energy}/${u.max_energy}\n` +
       `💪 Сила: ${u.strength} | 😔 Жалкость: ${u.pity} | 😎 Крутость: ${u.coolness}`;
 
     logEl.textContent = "✅ Действие выполнено: " + action;
   } catch (e) {
     logEl.textContent = "❌ Ошибка подключения: " + e.message;
-    console.error(e);
+    console. error(e);
   } finally {
     digBtn.disabled = false;
   }
