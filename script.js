@@ -1,20 +1,22 @@
-// Публичный адрес твоего API (через ngrok)
-const API_BASE = "https://jennifer-inviolate-unmentally.ngrok-free.dev";
+// API адрес твоего бота
+const API_BASE = "8555969182:AAHq7VhHP-Ok7P6OWYdXPvqyok6XOwse6xQ"; // ЗАПОЛНИ! 
 
-const tg = window.Telegram?.WebApp;
-if (tg) tg.expand();
+const tg = window. Telegram?. WebApp;
+if (tg) {
+  tg.expand();
+  tg.setHeaderColor("#1b1b1b");
+}
 
 const statusEl = document.getElementById("status");
 const logEl = document.getElementById("log");
 const digBtn = document.getElementById("digBtn");
 
-// Берём реальный user_id из Telegram WebApp
+// Получаем user_id из Telegram
 let userId = 0;
 if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
   userId = tg.initDataUnsafe.user.id;
 } else {
-  // если просто открыли страницу в браузере
-  userId = 12345;
+  userId = 12345; // для локального тестирования
 }
 
 async function callAction(action) {
@@ -30,19 +32,21 @@ async function callAction(action) {
     const data = await res.json();
 
     if (data.error) {
-      logEl.textContent = "Ошибка: " + data.error;
+      logEl.textContent = "❌ Ошибка: " + data.error;
       return;
     }
 
     const u = data.user;
     statusEl.textContent =
-      `Уровень: ${u.level} (опыт: ${u.exp})\n` +
-      `Деньги: ${u.money} руб\n` +
-      `Энергия: ${u.energy}/${u.max_energy}`;
+      `📊 Уровень: ${u.level} (опыт: ${u. exp})\n` +
+      `💵 Рубли: ${u.money_rub} | 💵 Доллары: ${u.money_usd}\n` +
+      `⚡ Энергия: ${u.energy}/${u. max_energy}\n` +
+      `💪 Сила: ${u.strength} | 😔 Жалкость: ${u.pity} | 😎 Крутость: ${u.coolness}`;
 
-    logEl.textContent = "Действие: " + action;
+    logEl.textContent = "✅ Действие выполнено: " + action;
   } catch (e) {
-    logEl.textContent = "Сервер недоступен";
+    logEl.textContent = "❌ Ошибка подключения: " + e.message;
+    console.error(e);
   } finally {
     digBtn.disabled = false;
   }
@@ -52,5 +56,5 @@ digBtn.addEventListener("click", () => {
   callAction("dig_trash");
 });
 
-// при первом открытии сразу обновим статус
+// При загрузке обновляем статус
 callAction("collect_bottles");
