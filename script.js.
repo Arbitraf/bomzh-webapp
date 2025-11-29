@@ -1,24 +1,17 @@
-// ВАЖНО: сюда потом впишем твой настоящий адрес Flask-сервера
-const API_BASE = "https://jennifer-inviolate-unmentally.ngrok-free.dev";
-
-const tg = window.Telegram?.WebApp;
-if (tg) tg.expand();
+// локальный API
+const API_BASE = "http://127.0.0.1:5000";
 
 const statusEl = document.getElementById("status");
 const logEl = document.getElementById("log");
 const digBtn = document.getElementById("digBtn");
 
-let userId = null;
-if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
-  userId = tg.initDataUnsafe.user.id;
-} else {
-  // Для теста в обычном браузере
-  userId = 12345;
-}
+// пока без Телеграма — просто фиктивный id
+const userId = 12345;
 
 async function callAction(action) {
   try {
     digBtn.disabled = true;
+
     const res = await fetch(`${API_BASE}/action`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -35,12 +28,12 @@ async function callAction(action) {
     const u = data.user;
     statusEl.textContent =
       `Уровень: ${u.level} (опыт: ${u.exp})\n` +
-      `Рубли: ${u.money_rub} | Доллары: ${u.money_usd}\n` +
+      `Деньги: ${u.money} руб\n` +
       `Энергия: ${u.energy}/${u.max_energy}`;
 
-    logEl.textContent = "Действие выполнено: " + action;
+    logEl.textContent = "Действие: " + action;
   } catch (e) {
-    logEl.textContent = "Сервер недоступен";
+    logEl.textContent = "Сервер недоступен: " + e;
   } finally {
     digBtn.disabled = false;
   }
@@ -50,5 +43,5 @@ digBtn.addEventListener("click", () => {
   callAction("dig_trash");
 });
 
-// При первом открытии — обновить статус
+// при загрузке просто обновим статус
 callAction("collect_bottles");
