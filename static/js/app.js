@@ -2,7 +2,7 @@
   'use strict';
 
   // Initialize Telegram WebApp
-  var tg = window.Telegram && window.Telegram.WebApp;
+  const tg = window.Telegram && window.Telegram.WebApp;
   if (tg) {
     tg.expand();
     tg.setHeaderColor('#1b1b1b');
@@ -11,8 +11,8 @@
 
   // Get user_id from query string
   function getUserId() {
-    var params = new URLSearchParams(window.location.search);
-    var queryUserId = params.get('user_id');
+    const params = new URLSearchParams(window.location.search);
+    const queryUserId = params.get('user_id');
     if (queryUserId) {
       return queryUserId;
     }
@@ -23,46 +23,46 @@
     return null;
   }
 
-  var userId = getUserId();
+  const userId = getUserId();
 
   // DOM elements - Main View
-  var mainView = document.getElementById('main-view');
-  var levelEl = document.getElementById('level');
-  var expEl = document.getElementById('exp');
-  var rublesEl = document.getElementById('rubles');
-  var dollarsEl = document.getElementById('dollars');
-  var energyEl = document.getElementById('energy');
-  var strengthEl = document.getElementById('strength');
-  var toastEl = document.getElementById('toast');
-  var actionButtons = document.querySelectorAll('.action-btn[data-action]');
-  var openBattleBtn = document.getElementById('open-battle');
+  const mainView = document.getElementById('main-view');
+  const levelEl = document.getElementById('level');
+  const expEl = document.getElementById('exp');
+  const rublesEl = document.getElementById('rubles');
+  const dollarsEl = document.getElementById('dollars');
+  const energyEl = document.getElementById('energy');
+  const strengthEl = document.getElementById('strength');
+  const toastEl = document.getElementById('toast');
+  const actionButtons = document.querySelectorAll('.action-btn[data-action]');
+  const openBattleBtn = document.getElementById('open-battle');
 
   // DOM elements - Battle View
-  var battleView = document.getElementById('battle-view');
-  var backToMainBtn = document.getElementById('back-to-main');
-  var bossSelection = document.getElementById('boss-selection');
-  var bossList = document.getElementById('boss-list');
-  var activeBattle = document.getElementById('active-battle');
-  var battleResult = document.getElementById('battle-result');
-  var playerHpBar = document.getElementById('player-hp-bar');
-  var playerHpText = document.getElementById('player-hp-text');
-  var bossHpBar = document.getElementById('boss-hp-bar');
-  var bossHpText = document.getElementById('boss-hp-text');
-  var bossNameEl = document.getElementById('boss-name');
-  var battleEnergyEl = document.getElementById('battle-energy');
-  var turnCounterEl = document.getElementById('turn-counter');
-  var moveButtonsEl = document.getElementById('move-buttons');
-  var battleLogEl = document.getElementById('battle-log');
-  var resultIcon = document.getElementById('result-icon');
-  var resultTitle = document.getElementById('result-title');
-  var rewardsList = document.getElementById('rewards-list');
-  var claimRewardsBtn = document.getElementById('claim-rewards');
+  const battleView = document.getElementById('battle-view');
+  const backToMainBtn = document.getElementById('back-to-main');
+  const bossSelection = document.getElementById('boss-selection');
+  const bossList = document.getElementById('boss-list');
+  const activeBattle = document.getElementById('active-battle');
+  const battleResult = document.getElementById('battle-result');
+  const playerHpBar = document.getElementById('player-hp-bar');
+  const playerHpText = document.getElementById('player-hp-text');
+  const bossHpBar = document.getElementById('boss-hp-bar');
+  const bossHpText = document.getElementById('boss-hp-text');
+  const bossNameEl = document.getElementById('boss-name');
+  const battleEnergyEl = document.getElementById('battle-energy');
+  const turnCounterEl = document.getElementById('turn-counter');
+  const moveButtonsEl = document.getElementById('move-buttons');
+  const battleLogEl = document.getElementById('battle-log');
+  const resultIcon = document.getElementById('result-icon');
+  const resultTitle = document.getElementById('result-title');
+  const rewardsList = document.getElementById('rewards-list');
+  const claimRewardsBtn = document.getElementById('claim-rewards');
 
   // State
-  var currentUser = null;
-  var battleConfig = { moves: {}, bosses: {} };
-  var selectedBossId = null;
-  var currentBattle = null;
+  let currentUser = null;
+  let battleConfig = { moves: {}, bosses: {} };
+  let selectedBossId = null;
+  let currentBattle = null;
 
   // Show toast notification
   function showToast(message, type) {
@@ -182,7 +182,7 @@
         }
         updateStats(data.user);
         
-        var messages = {
+        const messages = {
           'dig_trash': '✅ Накопал мусора! +50₽',
           'collect_bottles': '✅ Собрал бутылки! +$0.5',
           'train_strength': '✅ Потренировался! +1 сила'
@@ -251,33 +251,33 @@
     rewardsList.innerHTML = '';
     if (won && rewards) {
       if (rewards.rub > 0) {
-        var rubItem = document.createElement('div');
+        const rubItem = document.createElement('div');
         rubItem.className = 'reward-item';
         rubItem.innerHTML = '<span>💰 Рубли</span><span>+' + rewards.rub + ' ₽</span>';
         rewardsList.appendChild(rubItem);
       }
       if (rewards.usd > 0) {
-        var usdItem = document.createElement('div');
+        const usdItem = document.createElement('div');
         usdItem.className = 'reward-item';
         usdItem.innerHTML = '<span>💵 Доллары</span><span>+$' + rewards.usd + '</span>';
         rewardsList.appendChild(usdItem);
       }
       if (rewards.exp > 0) {
-        var expItem = document.createElement('div');
+        const expItem = document.createElement('div');
         expItem.className = 'reward-item';
         expItem.innerHTML = '<span>✨ Опыт</span><span>+' + rewards.exp + '</span>';
         rewardsList.appendChild(expItem);
       }
       if (rewards.items && rewards.items.length > 0) {
         rewards.items.forEach(function(itemId) {
-          var itemEl = document.createElement('div');
+          const itemEl = document.createElement('div');
           itemEl.className = 'reward-item';
           itemEl.innerHTML = '<span>🎁 Предмет</span><span>' + itemId + '</span>';
           rewardsList.appendChild(itemEl);
         });
       }
     } else if (!won) {
-      var noRewardItem = document.createElement('div');
+      const noRewardItem = document.createElement('div');
       noRewardItem.className = 'reward-item';
       noRewardItem.innerHTML = '<span>😔</span><span>Без награды</span>';
       rewardsList.appendChild(noRewardItem);
@@ -288,10 +288,10 @@
   function renderBossList() {
     bossList.innerHTML = '';
     
-    var bossKeys = Object.keys(battleConfig.bosses);
+    const bossKeys = Object.keys(battleConfig.bosses);
     bossKeys.forEach(function(bossId) {
-      var boss = battleConfig.bosses[bossId];
-      var card = document.createElement('div');
+      const boss = battleConfig.bosses[bossId];
+      const card = document.createElement('div');
       card.className = 'boss-card';
       card.dataset.bossId = bossId;
       
@@ -307,7 +307,7 @@
       
       card.addEventListener('click', function() {
         // Remove selected from all
-        var allCards = bossList.querySelectorAll('.boss-card');
+        const allCards = bossList.querySelectorAll('.boss-card');
         allCards.forEach(function(c) { c.classList.remove('selected'); });
         // Select this one
         card.classList.add('selected');
@@ -318,7 +318,7 @@
     });
     
     // Add start battle button
-    var startBtn = document.createElement('button');
+    const startBtn = document.createElement('button');
     startBtn.className = 'action-btn start-battle-btn';
     startBtn.textContent = '⚔️ Начать бой';
     startBtn.addEventListener('click', function() {
@@ -335,10 +335,10 @@
   function renderMoveButtons() {
     moveButtonsEl.innerHTML = '';
     
-    var moveKeys = Object.keys(battleConfig.moves);
+    const moveKeys = Object.keys(battleConfig.moves);
     moveKeys.forEach(function(moveKey) {
-      var move = battleConfig.moves[moveKey];
-      var btn = document.createElement('button');
+      const move = battleConfig.moves[moveKey];
+      const btn = document.createElement('button');
       btn.className = 'move-btn ' + moveKey;
       btn.dataset.move = moveKey;
       
@@ -356,10 +356,10 @@
 
   // Update move button states
   function updateMoveButtonStates() {
-    var moveButtons = moveButtonsEl.querySelectorAll('.move-btn');
+    const moveButtons = moveButtonsEl.querySelectorAll('.move-btn');
     moveButtons.forEach(function(btn) {
-      var moveKey = btn.dataset.move;
-      var move = battleConfig.moves[moveKey];
+      const moveKey = btn.dataset.move;
+      const move = battleConfig.moves[moveKey];
       if (move && currentUser) {
         btn.disabled = currentUser.energy < move.energy_cost || (currentBattle && currentBattle.finished);
       }
@@ -371,14 +371,14 @@
     if (!battle) return;
     
     currentBattle = battle;
-    var boss = battleConfig.bosses[battle.boss_id] || {};
+    const boss = battleConfig.bosses[battle.boss_id] || {};
     
     // Update boss name
     bossNameEl.textContent = '👹 ' + (boss.name_ru || boss.name || 'Босс');
     
     // Update HP bars
-    var playerHpPercent = Math.max(0, (battle.player_hp / battle.player_max_hp) * 100);
-    var bossHpPercent = Math.max(0, (battle.boss_hp / battle.boss_max_hp) * 100);
+    const playerHpPercent = Math.max(0, (battle.player_hp / battle.player_max_hp) * 100);
+    const bossHpPercent = Math.max(0, (battle.boss_hp / battle.boss_max_hp) * 100);
     
     playerHpBar.style.width = playerHpPercent + '%';
     bossHpBar.style.width = bossHpPercent + '%';
@@ -391,9 +391,9 @@
     
     // Update battle log
     battleLogEl.innerHTML = '';
-    var log = battle.log || [];
+    const log = battle.log || [];
     log.forEach(function(entry) {
-      var logEntry = document.createElement('div');
+      const logEntry = document.createElement('div');
       logEntry.className = 'log-entry';
       logEntry.textContent = entry;
       battleLogEl.appendChild(logEntry);
@@ -532,7 +532,7 @@
   // Attach event listeners to action buttons
   actionButtons.forEach(function(btn) {
     btn.addEventListener('click', function() {
-      var action = this.getAttribute('data-action');
+      const action = this.getAttribute('data-action');
       if (action) {
         performAction(action);
       }
