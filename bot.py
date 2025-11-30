@@ -2,7 +2,7 @@ import os
 import json
 import logging
 import traceback
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 import telebot
 from telebot import types
@@ -115,6 +115,25 @@ def health():
 def home():
     return jsonify({"status": "ok", "mode": "polling" if USE_POLLING else "webhook"})
 
+# WebApp route - serves the game UI
+@app.route("/webapp", methods=["GET"])
+def webapp():
+    return render_template("webapp.html")
+
+# User data endpoint
+@app.route("/user", methods=["GET"])
+def user():
+    try:
+        user_id = request.args.get("user_id")
+        if not user_id:
+            return jsonify({"error": "Missing user_id"}), 400
+        user_data = get_or_create_user(user_id)
+        restore_energy(user_data)
+        return jsonify({"user": user_data})
+    except Exception:
+        logger.exception("Exception in /user")
+        return jsonify({"error": "server error"}), 500
+
 # Webhook endpoint
 @app.route("/webhook", methods=["POST"])
 def webhook():
@@ -177,7 +196,7 @@ if bot is not None:
             restore_energy(user)
             markup = types.InlineKeyboardMarkup()
             if WEBHOOK_URL:
-                web_app = types.WebAppInfo(url=f"{WEBHOOK_URL}?user_id={user_id}")
+                web_app = types.WebAppInfo(url=f"{WEBHOOK_URL}/webapp?user_id={user_id}")
                 markup.add(types.InlineKeyboardButton("🎮 Открыть игру (WebApp)", web_app=web_app))
             markup.add(types.InlineKeyboardButton("📊 Профиль", callback_data="show_stats"))
             bot.send_message(
