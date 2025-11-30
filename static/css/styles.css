@@ -24,6 +24,10 @@ body {
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
 }
 
+.hidden {
+  display: none !important;
+}
+
 h1 {
   text-align: center;
   font-size: 1.5rem;
@@ -104,6 +108,300 @@ h1 {
   background: linear-gradient(135deg, #c62828, #8e0000);
 }
 
+/* Battle Section */
+.battle-section {
+  margin-top: 16px;
+}
+
+.battle-btn {
+  background: linear-gradient(135deg, #ff6b35, #cc4400) !important;
+}
+
+/* Battle View */
+.battle-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.battle-header h2 {
+  flex: 1;
+  text-align: center;
+  font-size: 1.3rem;
+  margin: 0;
+}
+
+.back-btn {
+  background: #333;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.back-btn:active {
+  background: #444;
+}
+
+/* Boss Selection */
+.boss-selection h3 {
+  text-align: center;
+  margin-bottom: 16px;
+  color: #ccc;
+}
+
+.boss-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.boss-card {
+  background: #252525;
+  border-radius: 12px;
+  padding: 16px;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease;
+  border: 2px solid transparent;
+}
+
+.boss-card:hover {
+  background: #2a2a2a;
+}
+
+.boss-card:active {
+  transform: scale(0.98);
+}
+
+.boss-card.selected {
+  border-color: #ff6b35;
+}
+
+.boss-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.boss-card-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.boss-card-level {
+  color: #888;
+  font-size: 0.9rem;
+}
+
+.boss-card-stats {
+  display: flex;
+  gap: 16px;
+  color: #aaa;
+  font-size: 0.85rem;
+}
+
+.start-battle-btn {
+  margin-top: 16px;
+  background: linear-gradient(135deg, #ff6b35, #cc4400) !important;
+}
+
+/* Active Battle */
+.battle-stats {
+  margin-bottom: 20px;
+}
+
+.hp-section {
+  margin-bottom: 12px;
+}
+
+.hp-label {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.hp-bar-container {
+  background: #333;
+  border-radius: 8px;
+  height: 20px;
+  overflow: hidden;
+}
+
+.hp-bar {
+  height: 100%;
+  border-radius: 8px;
+  transition: width 0.3s ease;
+}
+
+.player-hp {
+  background: linear-gradient(90deg, #4caf50, #66bb6a);
+}
+
+.boss-hp {
+  background: linear-gradient(90deg, #f44336, #e57373);
+}
+
+.hp-text {
+  text-align: right;
+  font-size: 0.85rem;
+  color: #aaa;
+  margin-top: 4px;
+}
+
+.battle-info {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px;
+  background: #252525;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  font-size: 0.95rem;
+}
+
+/* Move Buttons */
+.move-buttons {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.move-btn {
+  background: linear-gradient(135deg, #5c6bc0, #3949ab);
+  color: #fff;
+  border: none;
+  padding: 12px 8px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+  text-align: center;
+}
+
+.move-btn:active {
+  transform: scale(0.97);
+}
+
+.move-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.move-btn small {
+  display: block;
+  font-weight: 400;
+  opacity: 0.85;
+  font-size: 11px;
+  margin-top: 4px;
+}
+
+.move-btn.power {
+  background: linear-gradient(135deg, #c62828, #8e0000);
+}
+
+.move-btn.precision {
+  background: linear-gradient(135deg, #00897b, #00695c);
+}
+
+.move-btn.bleed {
+  background: linear-gradient(135deg, #7b1fa2, #4a0072);
+}
+
+.move-btn.guard {
+  background: linear-gradient(135deg, #455a64, #263238);
+}
+
+/* Battle Log */
+.battle-log-container {
+  background: #252525;
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.battle-log-container h4 {
+  margin-bottom: 8px;
+  color: #aaa;
+  font-size: 0.9rem;
+}
+
+.battle-log {
+  max-height: 150px;
+  overflow-y: auto;
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+.log-entry {
+  padding: 4px 0;
+  border-bottom: 1px solid #333;
+}
+
+.log-entry:last-child {
+  border-bottom: none;
+}
+
+/* Battle Result */
+.battle-result {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.result-icon {
+  font-size: 64px;
+  margin-bottom: 16px;
+}
+
+.battle-result h3 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+.battle-result.defeat h3 {
+  color: #f44336;
+}
+
+.battle-result.victory h3 {
+  color: #4caf50;
+}
+
+.rewards-section {
+  background: #252525;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.rewards-section h4 {
+  margin-bottom: 12px;
+  color: #aaa;
+}
+
+.rewards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.reward-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: #1b1b1b;
+  border-radius: 8px;
+}
+
+.claim-btn {
+  background: linear-gradient(135deg, #4caf50, #388e3c) !important;
+}
+
+/* Toast */
 .toast {
   position: fixed;
   bottom: 30px;
@@ -156,5 +454,9 @@ h1 {
   .action-btn {
     padding: 14px;
     font-size: 15px;
+  }
+  
+  .move-buttons {
+    grid-template-columns: 1fr;
   }
 }

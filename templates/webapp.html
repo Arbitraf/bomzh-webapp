@@ -9,7 +9,8 @@
 </head>
 <body>
   <div class="container">
-    <div class="card">
+    <!-- Main Game View -->
+    <div id="main-view" class="card">
       <h1>🏚️ Bomzh Clicker</h1>
       
       <div id="stats" class="stats">
@@ -51,8 +52,85 @@
         </button>
       </div>
 
-      <div id="toast" class="toast hidden"></div>
+      <div class="battle-section">
+        <button id="open-battle" class="action-btn battle-btn">
+          ⚔️ Бой<br><small>Сразись с противниками!</small>
+        </button>
+      </div>
     </div>
+
+    <!-- Battle View -->
+    <div id="battle-view" class="card hidden">
+      <div class="battle-header">
+        <button id="back-to-main" class="back-btn">← Назад</button>
+        <h2>⚔️ Бой</h2>
+      </div>
+
+      <!-- Boss Selection (before battle starts) -->
+      <div id="boss-selection" class="boss-selection">
+        <h3>Выбери противника:</h3>
+        <div id="boss-list" class="boss-list">
+          <!-- Bosses will be populated via JS -->
+        </div>
+      </div>
+
+      <!-- Active Battle -->
+      <div id="active-battle" class="active-battle hidden">
+        <!-- HP Bars -->
+        <div class="battle-stats">
+          <div class="hp-section player-hp-section">
+            <div class="hp-label">❤️ Ты</div>
+            <div class="hp-bar-container">
+              <div id="player-hp-bar" class="hp-bar player-hp"></div>
+            </div>
+            <div id="player-hp-text" class="hp-text">140/140</div>
+          </div>
+          <div class="hp-section boss-hp-section">
+            <div id="boss-name" class="hp-label">👹 Босс</div>
+            <div class="hp-bar-container">
+              <div id="boss-hp-bar" class="hp-bar boss-hp"></div>
+            </div>
+            <div id="boss-hp-text" class="hp-text">100/100</div>
+          </div>
+        </div>
+
+        <!-- Battle Info -->
+        <div class="battle-info">
+          <span>⚡ <span id="battle-energy">100</span></span>
+          <span>🔄 Ход: <span id="turn-counter">0</span></span>
+        </div>
+
+        <!-- Move Buttons -->
+        <div id="move-buttons" class="move-buttons">
+          <!-- Moves will be populated via JS -->
+        </div>
+
+        <!-- Battle Log -->
+        <div class="battle-log-container">
+          <h4>📜 Лог боя:</h4>
+          <div id="battle-log" class="battle-log">
+            <!-- Log entries will be populated via JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Battle Result -->
+      <div id="battle-result" class="battle-result hidden">
+        <div id="result-icon" class="result-icon">🎉</div>
+        <h3 id="result-title">Победа!</h3>
+        <div id="rewards-section" class="rewards-section">
+          <h4>Награды:</h4>
+          <div id="rewards-list" class="rewards-list">
+            <!-- Rewards will be populated via JS -->
+          </div>
+        </div>
+        <button id="claim-rewards" class="action-btn claim-btn">
+          Забрать награды
+        </button>
+      </div>
+    </div>
+
+    <div id="toast" class="toast hidden"></div>
   </div>
 
   <script src="/static/js/app.js"></script>
