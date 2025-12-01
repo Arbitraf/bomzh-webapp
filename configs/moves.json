@@ -1,0 +1,68 @@
+{
+  "normal": {
+    "key": "normal",
+    "name": "Обычный удар",
+    "name_ru": "Обычный удар",
+    "energy_cost": 5,
+    "base_damage": 15,
+    "crit_chance": 0.1,
+    "crit_multiplier": 1.5,
+    "miss_chance": 0.1,
+    "effects": []
+  },
+  "power": {
+    "key": "power",
+    "name": "Силовой удар",
+    "name_ru": "Силовой удар",
+    "energy_cost": 15,
+    "base_damage": 35,
+    "crit_chance": 0.15,
+    "crit_multiplier": 2.0,
+    "miss_chance": 0.2,
+    "effects": []
+  },
+  "precision": {
+    "key": "precision",
+    "name": "Точный удар",
+    "name_ru": "Точный удар",
+    "energy_cost": 10,
+    "base_damage": 20,
+    "crit_chance": 0.35,
+    "crit_multiplier": 1.8,
+    "miss_chance": 0.0,
+    "effects": []
+  },
+  "bleed": {
+    "key": "bleed",
+    "name": "Кровопускание",
+    "name_ru": "Кровопускание",
+    "energy_cost": 12,
+    "base_damage": 10,
+    "crit_chance": 0.05,
+    "crit_multiplier": 1.5,
+    "miss_chance": 0.15,
+    "effects": [
+      {
+        "type": "bleed",
+        "turns": 3,
+        "damage_per_turn": 5
+      }
+    ]
+  },
+  "guard": {
+    "key": "guard",
+    "name": "Защитная стойка",
+    "name_ru": "Защитная стойка",
+    "energy_cost": 8,
+    "base_damage": 8,
+    "crit_chance": 0.0,
+    "crit_multiplier": 1.0,
+    "miss_chance": 0.0,
+    "effects": [
+      {
+        "type": "stun",
+        "chance": 0.3
+      }
+    ]
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "street_bully": {
+    "id": "street_bully",
+    "name": "Уличный хулиган",
+    "name_ru": "Уличный хулиган",
+    "level": 1,
+    "hp": 100,
+    "damage_range": [8, 15],
+    "defense": 2,
+    "rage_threshold": 0.3,
+    "rage_bonus_damage": 1.5,
+    "resistances": {
+      "stun": 0.1,
+      "bleed": 0.0
+    },
+    "loot": {
+      "rub": { "min": 100, "max": 250 },
+      "exp": 50,
+      "items": [
+        { "id": "broken_bottle", "chance": 0.1 }
+      ]
+    }
+  },
+  "drunk_fighter": {
+    "id": "drunk_fighter",
+    "name": "Пьяный боец",
+    "name_ru": "Пьяный боец",
+    "level": 3,
+    "hp": 180,
+    "damage_range": [12, 22],
+    "defense": 4,
+    "rage_threshold": 0.25,
+    "rage_bonus_damage": 1.7,
+    "resistances": {
+      "stun": 0.3,
+      "bleed": 0.1
+    },
+    "loot": {
+      "rub": { "min": 200, "max": 450 },
+      "exp": 120,
+      "items": [
+        { "id": "leather_jacket", "chance": 0.05 },
+        { "id": "brass_knuckles", "chance": 0.08 }
+      ]
+    }
+  },
+  "yard_boss": {
+    "id": "yard_boss",
+    "name": "Дворовый авторитет",
+    "name_ru": "Дворовый авторитет",
+    "level": 5,
+    "hp": 300,
+    "damage_range": [18, 30],
+    "defense": 6,
+    "rage_threshold": 0.2,
+    "rage_bonus_damage": 2.0,
+    "resistances": {
+      "stun": 0.5,
+      "bleed": 0.2
+    },
+    "loot": {
+      "rub": { "min": 400, "max": 800 },
+      "usd": { "min": 5, "max": 15 },
+      "exp": 250,
+      "items": [
+        { "id": "chain", "chance": 0.1 },
+        { "id": "gold_ring", "chance": 0.03 }
+      ]
+    }
+  }
+}
